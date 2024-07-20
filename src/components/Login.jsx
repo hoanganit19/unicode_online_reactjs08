@@ -8,12 +8,9 @@ export default function Login() {
   } = useForm({
     criteriaMode: "firstError",
     mode: "onSubmit",
-    defaultValues: {
-      //   email: "hoangan.web@gmail.com",
-      //   password: "123456",
-    },
+    defaultValues: {},
   });
-  const onSubmit = (data) => {
+  const handleLogin = (data) => {
     console.log("submit");
     console.log(data);
   };
@@ -23,7 +20,7 @@ export default function Login() {
   return (
     <div className="w-50 mx-auto py-3">
       <h2 className="text-center">Đăng nhập</h2>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form action="" onSubmit={handleSubmit(handleLogin)}>
         <div className="mb-3">
           <label>Email</label>
           <input
@@ -31,19 +28,14 @@ export default function Login() {
             className="form-control"
             placeholder="Email..."
             {...register("email", {
+              //validate
               required: "Vui lòng nhập email",
-              minLength: 10,
-              pattern: /^\S+@\S+\.\S+$/,
+              //onChange
+              //onBlur
             })}
           />
-          {errors?.email?.types?.required && (
-            <span className="text-danger">Vui lòng nhập email</span>
-          )}
-          {errors?.email?.types?.minLength && (
-            <span className="text-danger">Độ dài không phù hợp</span>
-          )}
-          {errors?.email?.types?.pattern && (
-            <span className="text-danger">Email không đúng định dạng</span>
+          {errors.email && (
+            <span className="text-danger">{errors.email?.message}</span>
           )}
         </div>
         <div className="mb-3">
