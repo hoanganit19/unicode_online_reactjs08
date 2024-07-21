@@ -4,7 +4,9 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm({
     criteriaMode: "firstError",
@@ -15,14 +17,16 @@ export default function Login() {
       account_type: 0,
     },
   });
-  const handleLogin = (data) => {
-    console.log("submit");
-    console.log(data);
-    reset({
-      email: "",
-      password: "",
-      account_type: 0,
-    });
+  const handleLogin = ({ email, password, account_type }) => {
+    if (email !== "admin@gmail.com" || password !== "123456") {
+      setError("email", {
+        message: "Sai email hoặc mật khẩu",
+      });
+    }
+
+    if (account_type === "1") {
+      clearErrors("email");
+    }
   };
 
   return (
