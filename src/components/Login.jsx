@@ -7,6 +7,10 @@ export default function Login() {
     // reset,
     setError,
     clearErrors,
+    setValue,
+    setFocus,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm({
     criteriaMode: "firstError",
@@ -74,6 +78,39 @@ export default function Login() {
         </div>
         <div className="d-grid">
           <button className="btn btn-primary">Đăng nhập</button>
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={() => setValue("email", "admin@gmail.com")}
+          >
+            Set Value
+          </button>
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={() => setFocus("password")}
+          >
+            Set Focus
+          </button>
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={() => {
+              const values = getValues(["email", "password"]);
+              console.log(values);
+            }}
+          >
+            Get Values
+          </button>
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={() => {
+              trigger();
+            }}
+          >
+            Trigger
+          </button>
         </div>
       </form>
     </div>
