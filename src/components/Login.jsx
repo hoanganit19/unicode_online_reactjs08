@@ -4,6 +4,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     criteriaMode: "firstError",
@@ -11,11 +12,17 @@ export default function Login() {
     defaultValues: {
       email: "",
       password: "",
+      account_type: 0,
     },
   });
   const handleLogin = (data) => {
     console.log("submit");
     console.log(data);
+    reset({
+      email: "",
+      password: "",
+      account_type: 0,
+    });
   };
 
   return (
@@ -52,6 +59,14 @@ export default function Login() {
           {errors.password && (
             <span className="text-danger">{errors.password?.message}</span>
           )}
+        </div>
+        <div className="mb-3">
+          <label>Loại tài khoản</label>
+          <select className="form-select" {...register("account_type")}>
+            <option value="0">Chọn loại tài khoản</option>
+            <option value="1">Quản trị</option>
+            <option value="2">Khách</option>
+          </select>
         </div>
         <div className="d-grid">
           <button className="btn btn-primary">Đăng nhập</button>
