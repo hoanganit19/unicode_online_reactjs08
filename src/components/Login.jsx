@@ -8,14 +8,15 @@ export default function Login() {
   } = useForm({
     criteriaMode: "firstError",
     mode: "onSubmit",
-    defaultValues: {},
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
   const handleLogin = (data) => {
     console.log("submit");
     console.log(data);
   };
-
-  console.log(errors);
 
   return (
     <div className="w-50 mx-auto py-3">
