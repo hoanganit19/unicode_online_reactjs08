@@ -5,12 +5,12 @@ export default function Login() {
     register,
     handleSubmit,
     // reset,
-    setError,
-    clearErrors,
-    setValue,
-    setFocus,
-    getValues,
-    trigger,
+    // setError,
+    // clearErrors,
+    // setValue,
+    // setFocus,
+    // getValues,
+    // trigger,
     formState: { errors },
   } = useForm({
     criteriaMode: "firstError",
@@ -21,22 +21,45 @@ export default function Login() {
       account_type: 0,
     },
   });
-  const handleLogin = ({ email, password, account_type }) => {
-    if (email !== "admin@gmail.com" || password !== "123456") {
-      setError("email", {
-        message: "Sai email hoặc mật khẩu",
-      });
-    }
-
-    if (account_type === "1") {
-      clearErrors("email");
-    }
+  const handleLogin = (data) => {
+    // if (email !== "admin@gmail.com" || password !== "123456") {
+    //   setError("email", {
+    //     message: "Sai email hoặc mật khẩu",
+    //   });
+    // }
+    // if (account_type === "1") {
+    //   clearErrors("email");
+    // }
+    console.log(data);
   };
 
   return (
     <div className="w-50 mx-auto py-3">
       <h2 className="text-center">Đăng nhập</h2>
       <form action="" onSubmit={handleSubmit(handleLogin)}>
+        <div className="mb-3">
+          <label>Tên</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Tên..."
+            {...register("name", {
+              //validate
+              required: "Vui lòng nhập tên",
+              minLength: {
+                value: 5,
+                message: "Tên phải từ 5 ký tự trở lên",
+              },
+              maxLength: {
+                value: 20,
+                message: "Tên không được vượt quá 20 ký tự",
+              },
+            })}
+          />
+          {errors.email && (
+            <span className="text-danger">{errors.name?.message}</span>
+          )}
+        </div>
         <div className="mb-3">
           <label>Email</label>
           <input
@@ -46,6 +69,10 @@ export default function Login() {
             {...register("email", {
               //validate
               required: "Vui lòng nhập email",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Định dạng email không hợp lệ",
+              },
               //onChange
               //onBlur
             })}
@@ -62,6 +89,11 @@ export default function Login() {
             placeholder="Mật khẩu..."
             {...register("password", {
               required: "Vui lòng nhập mật khẩu",
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*]).{8,}$/,
+                message: "Mật khẩu yếu, vui lòng chọn mật khẩu khác",
+              },
             })}
           />
           {errors.password && (
@@ -70,15 +102,27 @@ export default function Login() {
         </div>
         <div className="mb-3">
           <label>Loại tài khoản</label>
-          <select className="form-select" {...register("account_type")}>
+          <select
+            className="form-select"
+            {...register("account_type", {
+              validate: (value) => {
+                if (+value === 0) {
+                  return "Vui lòng chọn loại tài khoản";
+                }
+              },
+            })}
+          >
             <option value="0">Chọn loại tài khoản</option>
             <option value="1">Quản trị</option>
             <option value="2">Khách</option>
           </select>
+          {errors.account_type && (
+            <span className="text-danger">{errors.account_type?.message}</span>
+          )}
         </div>
         <div className="d-grid">
           <button className="btn btn-primary">Đăng nhập</button>
-          <button
+          {/* <button
             className="btn btn-warning"
             type="button"
             onClick={() => setValue("email", "admin@gmail.com")}
@@ -110,7 +154,7 @@ export default function Login() {
             }}
           >
             Trigger
-          </button>
+          </button> */}
         </div>
       </form>
     </div>
