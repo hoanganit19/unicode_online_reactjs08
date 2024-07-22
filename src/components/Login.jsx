@@ -73,6 +73,19 @@ export default function Login() {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Định dạng email không hợp lệ",
               },
+              validate: async (email) => {
+                if (!email) {
+                  return "Vui lòng nhập email";
+                }
+                const response = await fetch(
+                  `https://jsonplaceholder.typicode.com/users?email=${email}`
+                );
+                const data = await response.json();
+                if (data.length > 0) {
+                  return "Email đã tồn tại";
+                }
+                // return true;
+              },
               //onChange
               //onBlur
             })}
@@ -109,6 +122,7 @@ export default function Login() {
                 if (+value === 0) {
                   return "Vui lòng chọn loại tài khoản";
                 }
+                return true;
               },
             })}
           >
